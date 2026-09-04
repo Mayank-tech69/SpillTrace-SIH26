@@ -1,0 +1,110 @@
+{
+    "1_detector_entry_point": {
+        "module": "sar_inference.py",
+        "function": "process_sar_scene(file_path: str, scene_id: str)",
+        "expected_input": "Local file path to downloaded SAR .tiff",
+        "input_requirements": "1-channel (VV or VH) or 3-channel (RGB representation) SAR intensity image. Dynamic normalization handled internally.",
+        "execution_mode": "Asynchronous (recommended for FastAPI via Celery/Redis due to inference time)",
+        "estimated_runtime": "5-15 seconds per scene depending on hardware"
+    },
+    "2_model_metadata": {
+        "detector_name": "SpillTrace Segmentation Engine",
+        "model_architecture": "UNet",
+        "active_checkpoint": "unet_final_spilltrace.keras",
+        "class_mapping": {
+            "0": "Background/Sea",
+            "1": "Oil Spill",
+            "2": "Look-alike",
+            "3": "Land/Ship"
+        },
+        "oil_spill_class_index": 1,
+        "classification_method": "Softmax with configurable threshold",
+        "probability_threshold": 0.3,
+        "morphology_cleanup": "cv2.MORPH_OPEN and cv2.MORPH_CLOSE applied. Connected components < min_area_threshold removed.",
+        "fallback_behavior": "If checkpoint fails/missing, return HTTP 503 with error details."
+    },
+    "3_output_artifacts": {
+        "storage_strategy": "Artifacts saved locally to configured output directory. Paths returned in JSON response.",
+        "final_oil_mask": "{output_dir}/{scene_id}_oil_mask.png",
+        "probability_map": "{output_dir}/{scene_id}_prob_heatmap.png",
+        "slick_geojson": "{output_dir}/{scene_id}_slick_geometry.geojson"
+    },
+    "4_geojson_geometry_contract": {
+        "crs": "EPSG:4326 (WGS 84)",
+        "coordinate_order": "[longitude, latitude]",
+        "polygon_validity": "Repaired and verified via Shapely (is_valid == True)",
+        "area_metric": "Geodesic area reported in square kilometres (km^2)",
+        "perimeter_metric": "Geodesic perimeter reported in metres (m)",
+        "multipart_handling": "Multiple slicks represented as a FeatureCollection of multiple Polygon features."
+    },
+    "5_processing_and_error_contract": {
+        "job_states": [
+            "QUEUED",
+            "PROCESSING",
+            "COMPLETED",
+            "FAILED"
+        ],
+        "job_id_format": "UUID-v4",
+        "empty_detection_behavior": "If no oil detected, status is COMPLETED. GeoJSON returns empty FeatureCollection. NOT an error.",
+        "error_codes": {
+            "ERR_INVALID_FILE": "File is corrupted or not a valid GeoTIFF.",
+            "ERR_MISSING_CRS": "GeoTIFF lacks spatial referencing.",
+            "ERR_MODEL_LOAD": "Keras checkpoint failed to load into memory."
+        }
+    },
+    "6_example_payloads": {
+        "valid_request": {
+            "scene_id": "SAR_20260901_001",
+            "file_path": "/storage/inputs/test3.tiff"
+        },
+        "successful_response": {
+            "status": "COMPLETED",
+            "scene_id": "SAR_20260901_001",
+            "message": "Oil slick detected successfully.",
+            "artifacts": {
+                "geojson": "/storage/outputs/SAR_20260901_001_slick_geometry.geojson",
+                "metadata": {
+                    "spill_id": "SPILL_TEST3_001",
+                    "acquisition_start_utc": "2026-09-02T00:00:00Z",
+                    "acquisition_end_utc": "2026-09-02T00:00:00Z",
+                    "sar_source": "Sentinel-1",
+                    "source_crs": "EPSG:4326",
+                    "output_crs": "EPSG:4326",
+                    "georeferencing_method": "injected_coordinates_for_prototype",
+                    "georeferencing_confidence": "prototype_scale",
+                    "detector_name": "SpillTrace_Team",
+                    "model_name": "ResNet50DeepLabV3Plus",
+                    "checkpoint": "oil_spill_seg_resnet_50_deeplab_v3%2B_80.pt",
+                    "model_status": "experimental",
+                    "oil_class_index": 1,
+                    "classification_method": "pixelwise_argmax_with_threshold",
+                    "probability_threshold": 0.3,
+                    "morphology_parameters": "MORPH_OPEN(3x3) -> MORPH_CLOSE(5x5) -> MIN_AREA(100px)",
+                    "pixel_count_before_cleanup": 159232,
+                    "pixel_count_after_cleanup": 158334,
+                    "number_of_components": 47,
+                    "area_method": "geodesic_approximation",
+                    "total_area_km2": 19.621,
+                    "total_perimeter_m": 187885.9
+                }
+            }
+        },
+        "no_oil_response": {
+            "status": "COMPLETED",
+            "scene_id": "SAR_20260901_002",
+            "message": "Processing successful. No oil pixels detected.",
+            "artifacts": {
+                "geojson": null,
+                "metadata": {
+                    "total_slicks_detected": 0
+                }
+            }
+        },
+        "failure_response": {
+            "status": "FAILED",
+            "scene_id": "SAR_20260901_003",
+            "error_code": "ERR_MISSING_CRS",
+            "message": "GeoTIFF lacks EPSG spatial referencing."
+        }
+    }
+}

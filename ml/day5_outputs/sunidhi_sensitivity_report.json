@@ -1,0 +1,82 @@
+[
+    {
+        "test_scenario": "Baseline Run",
+        "parameters": {
+            "wind_speed_mps": 7.7167,
+            "wind_direction_from": 270.0,
+            "current_speed_mps": 0.6173,
+            "current_direction_to": 90.0,
+            "random_seed": 42
+        },
+        "metrics": {
+            "execution_time_seconds": 0.7586,
+            "predicted_origin_lat": 19.495748,
+            "predicted_origin_lon": 70.709029,
+            "final_uncertainty_radius_m": 1191.87
+        }
+    },
+    {
+        "test_scenario": "Reproducibility Check (Same Seed)",
+        "parameters": {
+            "wind_speed_mps": 7.7167,
+            "wind_direction_from": 270.0,
+            "current_speed_mps": 0.6173,
+            "current_direction_to": 90.0,
+            "random_seed": 42
+        },
+        "metrics": {
+            "execution_time_seconds": 0.7626,
+            "predicted_origin_lat": 19.495748,
+            "predicted_origin_lon": 70.709029,
+            "final_uncertainty_radius_m": 1191.87
+        }
+    },
+    {
+        "test_scenario": "Sensitivity: High Wind (+20%)",
+        "parameters": {
+            "wind_speed_mps": 9.26004,
+            "wind_direction_from": 270.0,
+            "current_speed_mps": 0.6173,
+            "current_direction_to": 90.0,
+            "random_seed": 42
+        },
+        "metrics": {
+            "execution_time_seconds": 0.7901,
+            "predicted_origin_lat": 19.495745,
+            "predicted_origin_lon": 70.689975,
+            "final_uncertainty_radius_m": 1191.87
+        }
+    },
+    {
+        "test_scenario": "Sensitivity: High Current (+20%)",
+        "parameters": {
+            "wind_speed_mps": 7.7167,
+            "wind_direction_from": 270.0,
+            "current_speed_mps": 0.74076,
+            "current_direction_to": 90.0,
+            "random_seed": 42
+        },
+        "metrics": {
+            "execution_time_seconds": 0.734,
+            "predicted_origin_lat": 19.495739,
+            "predicted_origin_lon": 70.658223,
+            "final_uncertainty_radius_m": 1191.88
+        }
+    },
+    {
+        "test_scenario": "Seed Variance (Seed 99)",
+        "parameters": {
+            "wind_speed_mps": 7.7167,
+            "wind_direction_from": 270.0,
+            "current_speed_mps": 0.6173,
+            "current_direction_to": 90.0,
+            "random_seed": 99
+        },
+        "metrics": {
+            "execution_time_seconds": 0.7759,
+            "predicted_origin_lat": 19.496178,
+            "predicted_origin_lon": 70.709362,
+            "final_uncertainty_radius_m": 1149.12
+        }
+    }
+]

@@ -1,0 +1,22 @@
+{
+    "sea_surface": {
+        "count": 22513572,
+        "percentage_pct": 83.33
+    },
+    "oil_spill": {
+        "count": 74696,
+        "percentage_pct": 0.28
+    },
+    "look_alike": {
+        "count": 884061,
+        "percentage_pct": 3.27
+    },
+    "ship": {
+        "count": 2058,
+        "percentage_pct": 0.01
+    },
+    "land": {
+        "count": 3543610,
+        "percentage_pct": 13.12
+    }
+}

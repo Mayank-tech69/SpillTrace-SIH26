@@ -1,0 +1,30 @@
+{
+    "threshold_0.2": {
+        "oil_pixels_retained": 253765,
+        "connected_component_count": 118,
+        "total_component_area_px": 253765,
+        "largest_component_area_px": 50196,
+        "mean_probability_inside_mask": 0.41048774123191833
+    },
+    "threshold_0.3": {
+        "oil_pixels_retained": 159232,
+        "connected_component_count": 77,
+        "total_component_area_px": 159232,
+        "largest_component_area_px": 33645,
+        "mean_probability_inside_mask": 0.50908362865448
+    },
+    "threshold_0.4": {
+        "oil_pixels_retained": 99757,
+        "connected_component_count": 69,
+        "total_component_area_px": 99757,
+        "largest_component_area_px": 25426,
+        "mean_probability_inside_mask": 0.6050793528556824
+    },
+    "threshold_0.5": {
+        "oil_pixels_retained": 62853,
+        "connected_component_count": 51,
+        "total_component_area_px": 62853,
+        "largest_component_area_px": 12680,
+        "mean_probability_inside_mask": 0.7003750205039978
+    }
+}

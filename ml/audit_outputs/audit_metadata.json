@@ -1,0 +1,21 @@
+{
+    "model_name": "ResNet50DeepLabV3Plus",
+    "checkpoint": "oil_spill_seg_resnet_50_deeplab_v3%2B_80.pt",
+    "input_channels": 3,
+    "classification_method": "pixelwise_argmax",
+    "oil_class_index": 1,
+    "normalization": {
+        "mean": 0.5185,
+        "std": 0.197
+    },
+    "oil_probability_stats_global": {
+        "mean": 0.011831003241240978,
+        "max": 0.9916979074478149,
+        "min": 5.739332897825022e-10
+    },
+    "oil_probability_stats_masked": {
+        "mean": 0.684205949306488,
+        "max": 0.9916979074478149,
+        "min": 0.2547608017921448
+    }
+}

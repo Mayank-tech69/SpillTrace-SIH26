@@ -1,0 +1,13 @@
+{
+    "spill_id": "SPILL_TEST3_001",
+    "drift_run_id": "DRIFT_MC250_SEED42_001",
+    "origin_time_window_start_utc": "2026-09-01T10:00:00Z",
+    "origin_time_window_end_utc": "2026-09-01T14:00:00Z",
+    "estimated_origin_time_utc": "2026-09-01T12:00:00Z",
+    "wind_forcing_source": "unavailable / analyst-parameter-driven",
+    "current_forcing_source": "unavailable / analyst-parameter-driven",
+    "model_configuration": "250-particle Monte Carlo stochastic simulation with random_seed=42",
+    "final_exported_geometry_path": "day5_outputs/sunidhi_real_scenario_final.json (Extract 'hindcast_swept_corridor_geojson')",
+    "final_origin_polygon_path": "day5_outputs/sunidhi_real_scenario_final.json (Extract 'final_origin_uncertainty_polygon_geojson')",
+    "final_detector_metadata_path": "day4_outputs/slick_geometry.geojson"
+}

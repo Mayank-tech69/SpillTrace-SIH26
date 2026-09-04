@@ -1,7 +1,3 @@
-node_modules/
-dist/
-.env
-.venv/
 # =========================
 # ML Directory Exclusions
 # =========================
@@ -14,16 +10,15 @@ ml/*.tiff
 ml/*.jpg
 ml/test6.png
 ml/ais_sample_10000.csv
+# 5. Massive Output (Exceeds GitHub 100MB Limit)
+ml/output_results/test3_pytorch_prob.tif
+
 
 # 2. Intermediate/Heavy Model Weights (Keeping only the final one)
 ml/*.h5
 ml/*.pt
 ml/unet_binary_spilltrace.keras
 
-# 3. Heavy Diagnostic/Audit Folders
-ml/audit_outputs/
-ml/day3_outputs/
-
-# 4. System Files
+# 3. System Files
 ml/__pycache__/
 ml/structure.txt
