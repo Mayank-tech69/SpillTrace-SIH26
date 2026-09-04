@@ -23,3 +23,9 @@ seaborn==0.13.2
 pandas==2.2.3
 tqdm==4.66.5
 ipython==8.27.0
+
+# ===== Earth Engine / Geospatial =====
+earthengine-api
+geemap
+segmentation-models-pytorch
+segmentation-models
