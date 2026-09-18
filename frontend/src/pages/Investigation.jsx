@@ -688,12 +688,19 @@ export default function Investigation() {
 
     try {
       // GET /api/v1/ais/tracks requires start_time/end_time -- centre the
-      // query on this spill's detection time and centroid when available
-      // (getAisTracks() itself defaults to "now, last 7 days" if not).
+      // query on the SCENE's real acquisition time (not detection.detected_at,
+      // which is just the wall-clock moment the "Run Detection" button was
+      // clicked). AIS datasets are historical recordings tied to a real
+      // capture date; anchoring to "now" means a scene from a real dataset
+      // (e.g. Jan 2025) can never overlap a query centred on today's date.
       const centroid = detection?.metadata?.centroid;
 
       const response = await getAisTracks(spillId, {
-        endTime: detection?.detected_at || undefined,
+        endTime:
+          scene?.acquisition_end_utc ||
+          scene?.acquisition_start_utc ||
+          detection?.detected_at ||
+          undefined,
         lat: Array.isArray(centroid) ? centroid[1] : undefined,
         lon: Array.isArray(centroid) ? centroid[0] : undefined,
         radiusKm: Array.isArray(centroid) ? 50 : undefined,

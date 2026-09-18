@@ -1992,9 +1992,8 @@ input:focus-visible {
 
 .metadata-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1px;
-  overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.06);
@@ -2003,6 +2002,8 @@ input:focus-visible {
 .metadata-item {
   padding: 16px;
   background: rgba(8, 18, 32, 0.94);
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 
 .metadata-item span {

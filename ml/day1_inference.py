@@ -153,12 +153,12 @@ def process_sar_scene(file_path: str = IMAGE_PATH, scene_id: str = "test1_scene"
     if p_max > p_min:
         full_image = np.clip(full_image, p_min, p_max)
         full_image = (full_image - p_min) / (p_max - p_min)
-
+ 
     stride = TILE_SIZE - OVERLAP
     full_prob = np.zeros((height, width), dtype=np.float32)
     full_mask_accum = np.zeros((height, width), dtype=np.float32)
     weight_map = np.zeros((height, width), dtype=np.float32)
-
+ 
     print("Running sliding-window inference with PyTorch...")
     with torch.inference_mode():
         for y in range(0, height, stride):
@@ -181,7 +181,7 @@ def process_sar_scene(file_path: str = IMAGE_PATH, scene_id: str = "test1_scene"
                 full_prob[y:y + w_height, x:x + w_width] += oil_probs[:w_height, :w_width]
                 full_mask_accum[y:y + w_height, x:x + w_width] += oil_mask[:w_height, :w_width]
                 weight_map[y:y + w_height, x:x + w_width] += 1.0
-
+ 
     full_prob = np.divide(full_prob, weight_map, out=np.zeros_like(full_prob), where=weight_map != 0)
     full_mask_accum = np.divide(
         full_mask_accum, weight_map, out=np.zeros_like(full_mask_accum), where=weight_map != 0
@@ -239,7 +239,7 @@ def process_sar_scene(file_path: str = IMAGE_PATH, scene_id: str = "test1_scene"
             "centroid": centroid,
         },
     }
-
-
+ 
+ 
 if __name__ == "__main__":
     process_sar_scene()
